@@ -8,6 +8,8 @@ const passport = require('passport');
 
 const register = async (req, res) => {
 
+    console.log(req.body);
+
     const { username, email, password } = req.body;
     await User.findOne({ email })
         .then(
@@ -26,6 +28,18 @@ const register = async (req, res) => {
             res.status(500).send('Internal Server Error');
         });
 
+        await User.findOne({ username })
+        .then(
+
+            (user) => {
+
+                if (user) {
+                    res.status(400).send('Username already exists');
+                }
+            }
+
+        );
+
     /* const salt = await bcrypt.genSalt(10);
      const hashedPassword = await bcrypt.hash(password, salt);
      const user = new User({
@@ -38,6 +52,9 @@ const register = async (req, res) => {
         username,
         email,
     });
+
+    
+
     const registeredUser = await User.register(user, password);
 
     jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
