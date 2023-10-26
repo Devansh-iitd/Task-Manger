@@ -24,7 +24,8 @@ const TaskSchema = new mongoose.Schema({
     },
     members: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     creator: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    assingedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    assignedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    superTask: { type: mongoose.Schema.Types.ObjectId, ref: 'Task' },
 }, { timestamps: true });
 
 module.exports = mongoose.model('Task', TaskSchema);

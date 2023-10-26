@@ -62,6 +62,7 @@ passport.use(new JWTStraegy({
 
 app.use('/', userRoutes);
 app.use('/friends', FriendRoutes);
+app.use('/tasks', require('./routes/tasks'));
 
 
 
