@@ -16,6 +16,7 @@ const passport = require('passport');
 const userRoutes = require('./routes/auth');
 const FriendRoutes = require('./routes/friends');
 const LocalStrategy = require('passport-local');
+const cors = require('cors');
 
 const JWTStraegy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
@@ -36,6 +37,7 @@ db.once('open', function () {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(passport.initialize());
+
 
 passport.use(new LocalStrategy(User.authenticate()));
 
@@ -59,7 +61,7 @@ passport.use(new JWTStraegy({
 
 
 
-
+app.use(cors());
 app.use('/', userRoutes);
 app.use('/friends', FriendRoutes);
 app.use('/tasks', require('./routes/tasks'));
@@ -80,7 +82,7 @@ app.use((err, req, res, next) => {
 
 
 
-app.listen(3000, () => console.log('Example app listening on port 3000!'));
+app.listen(8080, () => console.log('Example app listening on port 3080!'));
 
 
 
