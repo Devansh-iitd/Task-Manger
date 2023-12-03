@@ -33,7 +33,7 @@ function Login(){
                     "Content-Type": "application/json",
                 },
             });
-            console.log(response);
+            //console.log(response);
 
             setFormData({
                 username: "",
@@ -58,8 +58,9 @@ function Login(){
     return(
         <div className="flex " >
         <img src={Img}  className="w-2/4 h-screen"/>
+      
         <div className=" mr-auto ml-auto  w-96" >
-            <div className=" pt-44"  >
+            <div className=" mt-44 max-w-sm mx-auto bg-slate-200 shadow-lg rounded-md overflow-hidden pt-8 pb-8 "  >
             <h1 className=" font-extrabold text-2xl w-46">Start Grinding</h1>
             <h1 className=" font-bold text-lg mt-10">Log In</h1>
             <form className=" mt-10">
@@ -80,6 +81,10 @@ function Login(){
             </form>
             </div>
         </div>
+
+        
+
+
         </div>
     )
 }

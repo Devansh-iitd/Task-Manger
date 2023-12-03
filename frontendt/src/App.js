@@ -6,6 +6,10 @@ import Home from './pages/Home';
 import { BrowserRouter as Router, Route,Routes } from 'react-router-dom';
 import Signup from './pages/Signup';
 import Login from './pages/login';
+import Tasks from './pages/Tasks';
+import AddTask from './pages/addTask';
+
+
 
 function App() {
   return (
@@ -20,6 +24,9 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/login' element={<Login />} />
+          { (localStorage.getItem('token')) ? <Route path='/tasks' element={<Tasks />} /> : <Route path='/tasks' element={<Login />} />}
+          <Route path='/tasks/addTask' element={<AddTask />} />
+          
         </Routes>
       </Router>
      

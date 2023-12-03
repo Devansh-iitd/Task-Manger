@@ -71,8 +71,8 @@ function Signup(){
         <div className="flex " >
         <img src={Img}  className="w-2/4 h-screen"/>
         <div className=" mr-auto ml-auto  w-96" >
-            <div className=" pt-44"  >
-            <h1 className=" font-extrabold text-2xl w-46">Join TaskHub and Keep Track of Your Work</h1>
+            <div className="mt-44 max-w-sm mx-auto bg-slate-200 shadow-lg rounded-md overflow-hidden p-8"  >
+            <h1 className=" font-extrabold text-2xl w-46 px-6">Join TaskHub and Keep Track of Your Work</h1>
             <h1 className=" font-bold text-lg mt-10">Sign Up</h1>
             <form className=" mt-10">
                 <div >

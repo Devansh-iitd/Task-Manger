@@ -26,6 +26,10 @@ const TaskSchema = new mongoose.Schema({
     creator: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     assignedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     superTask: { type: mongoose.Schema.Types.ObjectId, ref: 'Task' },
+    deadline: {
+        type: Date,
+        required: [true, "Deadline is required"]
+    },
 }, { timestamps: true });
 
 module.exports = mongoose.model('Task', TaskSchema);

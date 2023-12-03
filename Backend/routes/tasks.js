@@ -7,7 +7,7 @@ const tasks = require('../controllers/tasks');
 
 
 router.route('/')
-    .get(passport.authenticate('jwt', { session: false }), catchAsync(tasks.ShowTasks))
+    .get(passport.authenticate('jwt', { session: false }), catchAsync(tasks.ShowAllTasks))
     
 
 router.route('/add')

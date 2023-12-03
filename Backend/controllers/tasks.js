@@ -2,7 +2,7 @@ const Task = require('../models/tasks');
 const User = require('../models/users'); 
 
 
-const ShowTasks = async(req,res) => {
+const ShowTask = async(req,res) => {
 
     const user = await User.findById(req.user._id).populate({
         path:'tasks',
@@ -72,7 +72,9 @@ const ShowTasks = async(req,res) => {
 
 const AddTask = async(req,res) => {
 
-    const {title,description} = req.body;
+    //console.log(req.body);
+
+    const {title,description,deadline} = req.body;
 
     /*for(let i=0;i<members.length;i++){
 
@@ -92,7 +94,8 @@ const AddTask = async(req,res) => {
         creator:req.user._id,
         progress:0,
         completed:false,
-        assignedBy:null
+        assignedBy:null,
+        deadline
     });
 
     await task.save();
@@ -121,7 +124,7 @@ const AddTask = async(req,res) => {
 
 const AddMemeber = async(req,res) => {
 
-    const {username,title,description} = req.body;
+    const {username,title,description,deadline} = req.body;
     const task = await Task.findById(req.params.id);
     const mem = await User.findOne({username});
     
@@ -134,7 +137,8 @@ const AddMemeber = async(req,res) => {
         progress:0,
         completed:false,
         assignedBy:task.creator,
-        superTask:task._id
+        superTask:task._id,
+        deadline
     });
 
      await task2.save();
@@ -191,11 +195,37 @@ const UpdateTask = async(req,res) => {
     
 }
 
+const ShowAllTasks = async(req,res) => {
+
+    const user = await User.findById(req.user._id).populate('tasks');
+    
+    const tasks = user.tasks;
+    const data = tasks.map(object => {
+        return {
+            title:object.title,
+            description:object.description,
+            progress:object.progress,
+            completed:object.completed,
+            deadline:object.deadline
+
+        }
+    });
+    
+
+    res.status(200).json(data);
+
+
+    
+
+}
+
+
 
 module.exports = {
-    ShowTasks,
+    ShowTask,
     AddTask,
     AddMemeber,
-    UpdateTask
+    UpdateTask,
+    ShowAllTasks
 }
 
