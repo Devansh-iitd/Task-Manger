@@ -8,6 +8,8 @@ import Signup from './pages/Signup';
 import Login from './pages/login';
 import Tasks from './pages/Tasks';
 import AddTask from './pages/addTask';
+import Social from './pages/Social';
+import Task from './pages/Task';
 
 
 
@@ -26,7 +28,8 @@ function App() {
           <Route path='/login' element={<Login />} />
           { (localStorage.getItem('token')) ? <Route path='/tasks' element={<Tasks />} /> : <Route path='/tasks' element={<Login />} />}
           <Route path='/tasks/addTask' element={<AddTask />} />
-          
+          <Route path='/social' element = {<Social  />} />
+          <Route path='tasks/:id' element={<Task/>} />
         </Routes>
       </Router>
      

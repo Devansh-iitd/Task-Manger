@@ -51,6 +51,13 @@ function Login(){
         localStorage.setItem("username", formData.username);
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("isAuthenticated", true);
+        setTimeout(() => {
+            localStorage.removeItem("username");
+            localStorage.removeItem("token");
+            localStorage.removeItem("isAuthenticated");
+            navigate("/login");
+
+        }, 3600000);
         navigate("/");
         
     }

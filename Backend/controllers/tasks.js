@@ -4,70 +4,21 @@ const User = require('../models/users');
 
 const ShowTask = async(req,res) => {
 
-    const user = await User.findById(req.user._id).populate({
-        path:'tasks',
-        populate:[
-            {
-                path:'members',
-                model:'User'
-            },
-            {
-                path:'creator',
-                model:'User'
-            },
-            {
-                path:'superTask',
-                model:'Task',
-               
-               
-            },
-            {
-                path:'assignedBy',
-                model:'User',
-               
-                
-            
-            }
-                
-            
-           
-           
-        ]
-    });
+    const task = await Task.findById(req.params.id).populate('members').populate('creator').populate('assignedBy').populate('superTask');
+    const data = {
+        title:task.title,
+        description:task.description,
+        progress:task.progress,
+        completed:task.completed,
+        members:task.members,
+        creator:task.creator.username,
+        assignedBy:task.assignedBy,
+        superTask:task.superTask,
+        deadline:task.deadline,
+        id:task._id
+    }
 
-    
-    
-
-   // console.log(user.tasks);
-
-    const data = user.tasks.map(object => {
-
-        let asb = 'None';
-        let sT = 'None'
-
-        if(object.superTask){
-            sT = object.superTask.title;
-        }
-        
-        if(object.assignedBy){
-            asb= object.assignedBy.username;
-        }
-        
-
-        return {
-            title:object.title,
-            description:object.description,
-            progress:object.progress,
-            completed:object.completed,
-            members:object.members.map(object => object.username),
-            creator:object.creator.username,
-            assignedBy: asb,
-            superTask: sT
-        }
-    });
-
-
-    res.status(200).json(data);
+  return  res.status(200).json(data);
 }
 
 const AddTask = async(req,res) => {
@@ -206,7 +157,8 @@ const ShowAllTasks = async(req,res) => {
             description:object.description,
             progress:object.progress,
             completed:object.completed,
-            deadline:object.deadline
+            deadline:object.deadline,
+            id:object._id,
 
         }
     });

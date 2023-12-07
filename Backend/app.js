@@ -17,6 +17,7 @@ const userRoutes = require('./routes/auth');
 const FriendRoutes = require('./routes/friends');
 const LocalStrategy = require('passport-local');
 const cors = require('cors');
+const userInfo = require('./routes/userInfo');
 
 const JWTStraegy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
@@ -65,6 +66,7 @@ app.use(cors());
 app.use('/', userRoutes);
 app.use('/friends', FriendRoutes);
 app.use('/tasks', require('./routes/tasks'));
+app.use('/userInfo', require('./routes/userInfo'));
 
 
 

@@ -18,6 +18,7 @@ router.route('/addmember/:id')
     
 
 router.route('/:id')
+    .get(passport.authenticate('jwt', { session: false }), catchAsync(tasks.ShowTask))
     .put(passport.authenticate('jwt', { session: false }), catchAsync(tasks.UpdateTask))
 
 

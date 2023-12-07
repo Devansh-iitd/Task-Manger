@@ -20,7 +20,7 @@ const Tasks = () => {
                 },
             })
 
-            console.log(response.data);
+            //console.log(response.data);
             setTasks(response.data);
            
             
@@ -29,7 +29,7 @@ const Tasks = () => {
          
 
             fetchData();
-            console.log("hello");
+            //console.log("hello");
              
         
         }, []);
@@ -37,6 +37,14 @@ const Tasks = () => {
     const ChangePage = () => {
         window.location.href = "/tasks/addTask";
         
+    }
+
+    const TaskDetails = (evt) => {
+        
+        const id = evt.target.value;
+        
+        
+        window.location.href = `/tasks/${id}`;
     }
 
         
@@ -53,7 +61,10 @@ const Tasks = () => {
         <div className='container'>
 
            { tasks.map((task) => {
-               return <TaskCard task={task} />
+               return <TaskCard data={{
+                     task: task,
+                     TaskDetails: TaskDetails
+               }} />
            })}
             </div>
         </>
