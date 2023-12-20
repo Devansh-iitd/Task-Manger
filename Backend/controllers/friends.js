@@ -82,6 +82,7 @@ const AcceptFriend = async (req, res) => {
 }
 
 const RejectFriend = async (req, res) => {
+    console.log(req.body);
 
     const { requester } = req.body;
 

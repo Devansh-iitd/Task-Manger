@@ -40,12 +40,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(passport.initialize());
 
 
-passport.use(new LocalStrategy(User.authenticate()));
+passport.use(new LocalStrategy(User.authenticate(
+    
+)));
 
 passport.use(new JWTStraegy({
     jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
     secretOrKey: process.env.JWT_SECRET
 }, async (payload, done) => {
+   // console.log('hello');
     try {
         const user = await User.findById(payload.id);
 

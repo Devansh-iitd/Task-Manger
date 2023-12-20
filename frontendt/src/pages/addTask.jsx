@@ -17,7 +17,7 @@ const AddTask = () => {
 
     const handleSubmit = async (evt) => {
         evt.preventDefault();
-        console.log(formData);
+        //console.log(formData);
 
         let response;
         const url= "http://localhost:8080/tasks/add";

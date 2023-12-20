@@ -15,7 +15,8 @@ import Task from './pages/Task';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App ">
+      
 
       
     
@@ -26,7 +27,7 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/login' element={<Login />} />
-          { (localStorage.getItem('token')) ? <Route path='/tasks' element={<Tasks />} /> : <Route path='/tasks' element={<Login />} />}
+          <Route path='/tasks' element={<Tasks />} />
           <Route path='/tasks/addTask' element={<AddTask />} />
           <Route path='/social' element = {<Social  />} />
           <Route path='tasks/:id' element={<Task/>} />

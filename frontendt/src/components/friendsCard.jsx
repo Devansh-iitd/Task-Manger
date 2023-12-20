@@ -19,10 +19,14 @@ const FriendsCard = (props) => {
     //console.log(friend);
 
     return(
-       <div className='flex flex-col px-2 w-52 shadow-lg  bg-gradient-to-br from-teal-100 to-teal-400 rounded-3xl m-3'>
-        <img src={profilePic} className="w-20 h-20 rounded-full ml-4 mt-4"/>
-        <h1 className="text-left pl-4 font-semiabold text-2xl">{name}</h1>
-        <p className="text-left pl-4 font-medium"></p>
+       <div className=' w-72 h-52 rounded-xl bg-white m-9'>
+        <div className=' w-32 h-6 rounded mt-4 ml-4' style={{backgroundColor:'#A3E5D1'}}>
+          <a className=' text-base font-medium text-black font-sans my-auto mx-auto'>{name}</a>
+
+        </div>
+        <img src={profilePic} className=" w-32 h-20 rounded-lg mx-auto my-8"/>
+       
+        
         
         {(!requester && !friends)?
          <button type="button" className="bg-gradient-to-r from-green-600 to-green-300 rounded-md text-white    h-6 hover:cursor-pointer ml-10 mb-4 px-1" value={name} onClick={accept}>Accept</button>

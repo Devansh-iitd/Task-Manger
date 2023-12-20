@@ -26,17 +26,15 @@ const register = async (req, res) => {
        // console.log("coming here");
 
    
-
+         
      const user = new User({
         username,
         email,
      });
 
-    
+     const registeredUser = await User.register(user, password);
 
-    const registeredUser = await User.register(user, password);
-
-    jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
+     jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
         if (err) {
             console.log(err);
             res.status(500).send('Internal Server Error');
@@ -48,6 +46,18 @@ const register = async (req, res) => {
             }
         )
     })
+
+
+    
+        console.log(err);
+        return res.status(500).send(err.ValidationError);
+
+
+    
+
+    
+
+    
 
 
 

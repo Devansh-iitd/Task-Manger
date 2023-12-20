@@ -22,10 +22,22 @@ const TaskSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    members: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+   // members: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     creator: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     assignedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     superTask: { type: mongoose.Schema.Types.ObjectId, ref: 'Task' },
+    subTasks: [ {
+        task: { type: mongoose.Schema.Types.ObjectId, ref: 'Task' },
+        member: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+       
+    }],
+    members: [{
+        member:{type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+        completed: {
+            type: Boolean,
+            default: false
+        },
+    }],
     deadline: {
         type: Date,
         required: [true, "Deadline is required"]

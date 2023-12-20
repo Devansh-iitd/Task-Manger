@@ -18,8 +18,13 @@ router.route('/addmember/:id')
     
 
 router.route('/:id')
-    .get(passport.authenticate('jwt', { session: false }), catchAsync(tasks.ShowTask))
-    .put(passport.authenticate('jwt', { session: false }), catchAsync(tasks.UpdateTask))
+    .get(passport.authenticate('jwt', { session: false }), catchAsync(tasks.ShowTask));
+    
+router.route('/update/:id')
+    .put(passport.authenticate('jwt', { session: false }), catchAsync(tasks.UpdateTask));
+
+router.route('/delete/:id')
+    .delete(passport.authenticate('jwt', { session: false }), catchAsync(tasks.DeleteTask));
 
 
 module.exports = router;

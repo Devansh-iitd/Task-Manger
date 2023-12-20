@@ -3,10 +3,11 @@ const router = express.Router();
 const passport = require('passport');
 const authcontroller = require('../controllers/authcontroller');
 const jwt = require('jsonwebtoken');
+const catchasync = require('../utils/catchasync');
 
 
 router.route('/register')
-    .post(authcontroller.register);
+    .post(catchasync(authcontroller.register));
 
 router.route('/login')
     .post(passport.authenticate('local', { session: false }), (req, res) => {

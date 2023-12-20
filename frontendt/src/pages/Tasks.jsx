@@ -9,6 +9,7 @@ const Tasks = () => {
     const [tasks, setTasks] = useState([]);
 
     useEffect(() => {
+        
 
          const fetchData = async () => {
             const url = "http://localhost:8080/tasks";
@@ -41,7 +42,7 @@ const Tasks = () => {
 
     const TaskDetails = (evt) => {
         
-        const id = evt.target.value;
+        const id = evt.currentTarget.getAttribute("data-id");
         
         
         window.location.href = `/tasks/${id}`;
@@ -55,10 +56,10 @@ const Tasks = () => {
 
 
     return (
-        <>
-        <h1 className=" text-left pl-10 pb-6 text-white bg-gradient-to-r from-purple-300 to-purple-600 text-3xl font-bold ">Your Tasks</h1>
+        <div style={{ height:'100%',backgroundColor:'#259875'}} className=' min-h-screen'>
+        
         <button className="bg-gradient-to-r from-green-600 to-green-300 rounded-md text-white font-bold text-lg w-28 h-10 hover:cursor-pointer ml-10 mb-10" onClick={ChangePage}>Add Task</button>
-        <div className='container'>
+        <div className='flex justify-around flex-wrap' >
 
            { tasks.map((task) => {
                return <TaskCard data={{
@@ -67,7 +68,8 @@ const Tasks = () => {
                }} />
            })}
             </div>
-        </>
+            
+        </div>
     )
 }
 

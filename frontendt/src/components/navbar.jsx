@@ -1,9 +1,8 @@
 
 import React from 'react';
 import { useNavigate }  from 'react-router-dom';
-import axios from 'axios';
-import { useState } from 'react';
-import { useEffect } from 'react';
+
+
 
 
 const  Nav= () => {
@@ -21,6 +20,8 @@ const  Nav= () => {
     localStorage.removeItem('username');
     localStorage.removeItem('token');
     localStorage.removeItem('isAuthenticated');
+    localStorage.removeItem('profilePic');
+  
     navigate('/login');
   }
 
@@ -32,27 +33,23 @@ const  Nav= () => {
     navigate('/tasks');
   }
 
-  const [profilePic, setProfilePic] = useState('');
+  
+  
+  
 
-  useEffect(() => {
-    const getProfilePic = async () => {
-      const url = 'http://localhost:8080/userInfo/profilePic';
-      const token = localStorage.getItem('token');
-      const response = await axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log(response);
-      setProfilePic(response.data.profilePic);
-    };
-    getProfilePic();
-  }
-  , []);
+  
 
+
+
+  
+
+  
+  
   const Social = () => {
     navigate('/social');
   }
+
+
 
 
   
@@ -72,7 +69,7 @@ const  Nav= () => {
       
       <button className=' text-md bg-green-400 font-semibold rounded-full pt-2 pb-2 hover:bg-green-700 pl-6 pr-6' onClick={Tasks}>Tasks</button>
       <button className=' text-md bg-green-400 font-semibold rounded-full pt-2 pb-2 hover:bg-green-700 pl-6 pr-6'onClick={Social} >Social</button>
-      <img className = " rounded-full h-10 w-10" src={profilePic} alt="profilePic"/>
+      <img className = " rounded-full h-10 w-10" src={localStorage.getItem('profilePic')} alt="profilePic"/>
       
       </>) : (<><button className=' text-md bg-pink-500 font-bold rounded-full pt-2 pb-2 hover:bg-pink-700 pl-6 pr-6' onClick={HandleLogin}>Log In</button>
     <button className='text-md bg-green-400 font-bold rounded-full pt-2 pb-2 hover:bg-green-700 pl-6 pr-6' onClick={HandleSignup}>Sign Up</button></>)}

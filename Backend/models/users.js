@@ -25,7 +25,12 @@ const UserSchema = new mongoose.Schema({
      },*/
     friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     friendsRequest: [{ type: mongoose.Schema.Types.ObjectId, ref: 'FriendShip' }],
-    tasks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Task' }],
+    tasks: [
+        { type: mongoose.Schema.Types.ObjectId, ref: 'Task' },
+
+    
+    
+],
     profilePic: {
         type: String,
         default: 'https://www.w3schools.com/howto/img_avatar.png'

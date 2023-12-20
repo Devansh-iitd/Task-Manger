@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import Img from  '../images/SignupPage.jpg';
+import Img from  '../images/LoginImg.svg';
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
@@ -55,40 +55,76 @@ function Login(){
             localStorage.removeItem("username");
             localStorage.removeItem("token");
             localStorage.removeItem("isAuthenticated");
+            localStorage.removeItem("profilePic");
             navigate("/login");
 
         }, 3600000);
+
+        try{
+            response = await axios.get('http://localhost:8080/userInfo/profilePic',{
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    "Content-Type": "application/json",
+                }
+            
+            })
+            //console.log(response);
+            localStorage.setItem("profilePic", response.data.profilePic);
+
+        }
+        catch(err){
+            console.log(err);
+        }
+
+
         navigate("/");
         
     }
     }
     return(
-        <div className="flex " >
-        <img src={Img}  className="w-2/4 h-screen"/>
-      
-        <div className=" mr-auto ml-auto  w-96" >
-            <div className=" mt-44 max-w-sm mx-auto bg-slate-200 shadow-lg rounded-md overflow-hidden pt-8 pb-8 "  >
-            <h1 className=" font-extrabold text-2xl w-46">Start Grinding</h1>
-            <h1 className=" font-bold text-lg mt-10">Log In</h1>
-            <form className=" mt-10">
-                <div >
-                
-                <input type="text" placeholder="Username" name="username" value={formData.username} onChange={handleChange} className=" border-slate-800 border-2 ml-6 rounded-md hover:bg-slate-100 h-8"/>
+        <div className=" bg-white w-full " >
+            <div className=" w-2/3 h-max  shadow-2xl  grid grid-cols-2 mx-auto mt-16 ">
+                <div className=" col-span-1">
+                <div className="flex justify-around mt-9 ">
+                    <h1 className=" font-bold text-lg"><a style={{color:'#259875'}}>Task</a><a style={{color:'#141349'}}>Hub</a></h1>
+                    <div className="flex justify-around w-48">
+                        <h1 className=" font-bold text-lg cursor-pointer" style={{color:'#141349'}}>Login</h1>
+                        <h1 className="font-semibold text-lg cursor-pointer" style={{color:'#259875'}} onClick={() => {
+                            navigate("/signup");
+                        
+                        }}>Sign Up</h1>
+                    </div>
                 </div>
-                <div className="mt-6">
+                <div className=" text-3xl font-medium mt-28 w-max ml-14">SIGN IN</div>
+                <p className="w-max font-medium text-lg ml-14 mt-3" style={{color:'#8E8989'}}>Sign in to continue to our application </p>
+                <form className="mt-7" >
+
+                <div className="w-max ml-14" >
+                
+                <input type="text" placeholder="Username" name="username" value={formData.username} onChange={handleChange} className=" border-x-0 border-t-0 border-b-2 border-black pb-3 font-medium" style={{width:'376px'}}/>
+                </div>
+                <div className="w-max ml-14 mt-6">
                 
                 
                 
-                <input type="password" placeholder="Password" name="password" value={formData.password }  onChange={handleChange} className=" border-slate-800 border-2 ml-6 rounded-md hover:bg-slate-100 h-8"/>
+                <input type="password" placeholder="Password" name="password" value={formData.password }  onChange={handleChange} className="border-x-0 border-t-0 border-b-2 border-black pb-3 font-medium" style={{width:'376px'}}/>
                 </div>
 
-                <div className="mt-6 ml-8">
-                <button className="bg-gradient-to-r from-green-600 to-green-300 rounded-md text-white font-bold text-lg w-28 h-10 hover:cursor-pointer" onClick={handleSubmit}>Log In</button>
+                <div className="w-max">
+                <button className="mt-8 text-white h-11 mb-24 rounded-lg  shadow-2xl text-lg  font-medium ml-12 " style={{width:'376px',background:'linear-gradient(269deg, rgba(50, 160, 120, 0.36) 0%, #2624A3 0%, #259875 100%)',boxShadow:'0px 10px 20px 0px #1B1A60'}} onClick={handleSubmit}>Sign In</button>
+</div>
+                </form>
+
+                
                 </div>
-            </form>
+                <div className="col-span-1 " style={{background: 'linear-gradient(180deg, #141349 19.37%, rgba(50, 160, 120, 0.36) 100%)'}}>
+                    <img src={Img} className="mx-auto mt-20" />
+                </div>
+
             </div>
-        </div>
-
+    
+      
+        
         
 
 
