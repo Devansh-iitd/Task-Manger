@@ -1,148 +1,227 @@
-import React, {useState} from "react";
-import Img from  '../images/SignupPage.svg';
-import {useNavigate} from "react-router-dom";
-import axios from "axios";
+import React, { useEffect, useState } from 'react'
+import Img from '../images/SignupPage.svg'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
+function Signup() {
+  const navigate = useNavigate()
 
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+  })
+  const [formErrors, setFormErrors] = useState({})
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [error,setError] = useState('');
 
-
-function Signup(){
-
-    const navigate = useNavigate();
-
-    const [formData, setFormData] = useState({
-        username: "",
-        email: "",
-        password: ""
-    });
-
-    const handleChange = (evt) => {
-        
-        setFormData({
-            ...formData, [evt.target.name]: evt.target.value
+  const handleChange = (evt) => {
+    setFormData({
+      ...formData,
+      [evt.target.name]: evt.target.value,
     })
-};
+  }
 
-    const url= "http://localhost:8080/register";
+  const url = 'http://localhost:8080/register'
 
-    const handleSubmit = async (evt) => {
-        evt.preventDefault();
-        let response;
-        
-        try{
-           // console.log(formData, baseURL);
-         response= await axios.post(url, formData, {
+  const handleSubmit = async (evt) => {
+    evt.preventDefault()
+    setFormErrors(validate(formData))
+    setIsSubmitting(true)
+  }
+
+  useEffect(() => {
+    if (Object.keys(formErrors).length === 0 && isSubmitting) {
+      const fetchData = async () => {
+        let response
+
+        try {
+          // console.log(formData, baseURL);
+          response = await axios.post(url, formData, {
             headers: {
-                "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
-            
-        
-        });
-        console.log(response);
-    } catch (err) {
-        console.log(err);
-    }
+          })
+          console.log(response)
+        } catch (err) {
+          console.log(err)
+          if(err.response.status === 400){
+            setError('Username or Email already exists');
+        }
+        else{
+            setError('Something went wrong')
+        }
+        }
         setFormData({
-            username: "",
-            email: "",
-            password: ""
-        });
+          username: '',
+          email: '',
+          password: '',
+        })
 
-        if(response){
+        if (response) {
+          localStorage.setItem('username', formData.username)
+          localStorage.setItem('token', response.data.token)
+          localStorage.setItem('isAuthenticated', true)
 
-        localStorage.setItem("username", formData.username);
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("isAuthenticated", true);
+          setTimeout(() => {
+            localStorage.removeItem('username')
+            localStorage.removeItem('token')
+            localStorage.removeItem('isAuthenticated')
+            localStorage.removeItem('profilePic')
+            navigate('/login')
+          }, 3600000)
 
-        setTimeout(() => {
-            localStorage.removeItem("username");
-            localStorage.removeItem("token");
-            localStorage.removeItem("isAuthenticated");
-            localStorage.removeItem("profilePic");
-            navigate("/login");
-
-        }, 3600000);
-
-        try{
-            response = await axios.get('http://localhost:8080/userInfo/profilePic',{
+          try {
+            response = await axios.get(
+              'http://localhost:8080/userInfo/profilePic',
+              {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                    "Content-Type": "application/json",
-                }
-            });
-            
-            localStorage.setItem("profilePic", response.data.profilePic);
+                  Authorization: `Bearer ${localStorage.getItem('token')}`,
+                  'Content-Type': 'application/json',
+                },
+              }
+            )
+
+            localStorage.setItem('profilePic', response.data.profilePic)
+          } catch (err) {
+            console.log(err)
+          }
+
+          navigate('/')
         }
-        catch(err){
-            console.log(err);
-        }
+      }
+        fetchData();
+    }
+  }, [formErrors])
 
-        navigate("/");
-        }
+  const validate = (values) => {
+    let errors = {}
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i
 
-        
-
-
-
-
-
-
+    if (!values.username) {
+      errors.username = 'Username is required'
+    } else if (values.username.length < 3) {
+      errors.username = 'Username must be at least 3 characters long'
     }
 
-    return(
-       
+    if (!values.email) {
+      errors.email = 'Email is required'
+    } else if (!regex.test(values.email)) {
+      errors.email = 'Invalid Email'
+    }
 
-    <div className=" bg-white w-full " >
-    <div className=" w-2/3   shadow-2xl  grid grid-cols-2 mx-auto mt-16 ">
+    if (!values.password) {
+      errors.password = 'Password is required'
+    } else if (values.password.length < 6) {
+      errors.password = 'Password must be at least 6 characters long'
+    }
 
-    <div className="col-span-1 " style={{background: 'linear-gradient(180deg, #141349 19.37%, rgba(50, 160, 120, 0.36) 100%)'}}>
-            <img src={Img} className="mx-auto mt-20" />
+    return errors
+  }
+
+  return (
+    <div className=" bg-white w-full ">
+      <div className=" w-2/3   shadow-2xl  grid grid-cols-2 mx-auto mt-16 ">
+        <div
+          className="col-span-1 "
+          style={{
+            background:
+              'linear-gradient(180deg, #141349 19.37%, rgba(50, 160, 120, 0.36) 100%)',
+          }}
+        >
+          <img src={Img} className="mx-auto mt-20" />
         </div>
-
 
         <div className=" col-span-1">
-        <div className="flex justify-around mt-9 ">
-            <h1 className=" font-bold text-lg"><a style={{color:'#259875'}}>Task</a><a style={{color:'#141349'}}>Hub</a></h1>
+          <div className="flex justify-around mt-9 ">
+            <h1 className=" font-bold text-lg">
+              <a style={{ color: '#259875' }}>Task</a>
+              <a style={{ color: '#141349' }}>Hub</a>
+            </h1>
             <div className="flex justify-around w-48">
-                <h1 className=" font-bold text-lg cursor-pointer" style={{color:'#141349'}}>Login</h1>
-                <h1 className="font-semibold text-lg cursor-pointer" style={{color:'#259875'}} onClick={() => {
-                    navigate("/signup");
-                
-                }}>Sign Up</h1>
+              <h1
+                className=" font-bold text-lg cursor-pointer"
+                style={{ color: '#141349' }}
+              >
+                Login
+              </h1>
+              <h1
+                className="font-semibold text-lg cursor-pointer"
+                style={{ color: '#259875' }}
+                onClick={() => {
+                  navigate('/signup')
+                }}
+              >
+                Sign Up
+              </h1>
             </div>
+          </div>
+            <div className="text-red-500 text-center text-base font-medium mt-8 ml-14">{error}</div>
+          <div className=" text-3xl font-medium mt-28 w-max ml-14">SIGN UP</div>
+          <p
+            className="w-max font-medium text-lg ml-14 mt-3"
+            style={{ color: '#8E8989' }}
+          >
+            Sign up to continue to our application{' '}
+          </p>
+          <form className="mt-7">
+            <div className="w-max ml-14">
+              <input
+                type="text"
+                placeholder="Username"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                className=" border-x-0 border-t-0 border-b-2 border-black pb-3 font-medium"
+                style={{ width: '376px' }}
+              />
+              <p className="text-red-500 text-sm">{formErrors.username}</p>
+            </div>
+            <div className="w-max ml-14 mt-6">
+              <input
+                type="text"
+                placeholder="Email Id"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className=" border-x-0 border-t-0 border-b-2 border-black pb-3 font-medium "
+                style={{ width: '376px' }}
+              />
+              <p className="text-red-500 text-sm">{formErrors.email}</p>
+            </div>
+
+            <div className="w-max ml-14 mt-6">
+              <input
+                type="password"
+                placeholder="Password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className="border-x-0 border-t-0 border-b-2 border-black pb-3 font-medium"
+                style={{ width: '376px' }}
+              />
+              <p className="text-red-500 text-sm">{formErrors.password}</p>
+            </div>
+
+            <div className="w-max">
+              <button
+                className="mt-8 text-white h-11 mb-16 rounded-lg  shadow-2xl text-lg  font-medium ml-12 "
+                style={{
+                  width: '376px',
+                  background:
+                    'linear-gradient(269deg, rgba(50, 160, 120, 0.36) 0%, #2624A3 0%, #259875 100%)',
+                  boxShadow: '0px 10px 20px 0px #1B1A60',
+                }}
+                onClick={handleSubmit}
+              >
+                Sign In
+              </button>
+            </div>
+          </form>
         </div>
-        <div className=" text-3xl font-medium mt-28 w-max ml-14">SIGN UP</div>
-        <p className="w-max font-medium text-lg ml-14 mt-3" style={{color:'#8E8989'}}>Sign up to continue to our application </p>
-        <form className="mt-7" >
+      </div>
 
-        <div className="w-max ml-14" >
-        
-        <input type="text" placeholder="Username" name="username" value={formData.username} onChange={handleChange} className=" border-x-0 border-t-0 border-b-2 border-black pb-3 font-medium" style={{width:'376px'}}/>
-        </div>
-        <div className="w-max ml-14 mt-6">
-
-        <input type="text" placeholder="Email Id" name="email" value={formData.email} onChange={handleChange} className=" border-x-0 border-t-0 border-b-2 border-black pb-3 font-medium " style={{width:'376px'}}/>
-        </div>
-
-        <div className="w-max ml-14 mt-6">
-        
-        
-        
-        <input type="password" placeholder="Password" name="password" value={formData.password }  onChange={handleChange} className="border-x-0 border-t-0 border-b-2 border-black pb-3 font-medium" style={{width:'376px'}}/>
-        </div>
-
-        <div className="w-max">
-        <button className="mt-8 text-white h-11 mb-16 rounded-lg  shadow-2xl text-lg  font-medium ml-12 " style={{width:'376px',background:'linear-gradient(269deg, rgba(50, 160, 120, 0.36) 0%, #2624A3 0%, #259875 100%)',boxShadow:'0px 10px 20px 0px #1B1A60'}} onClick={handleSubmit}>Sign In</button>
-</div>
-        </form>
-
-        
-        </div>
-       
-
-    </div>
-
-{/*<div className="flex " >
+      {/*<div className="flex " >
         <img src={Img}  className="w-2/4 h-screen"/>
         <div className=" mr-auto ml-auto  w-96" >
             <div className="mt-44 max-w-sm mx-auto bg-slate-200 shadow-lg rounded-md overflow-hidden p-8"  >
@@ -169,18 +248,8 @@ function Signup(){
             </div>
         </div>
     </div>*/}
-
-
-
-
-
-</div>
-
-
-
- 
-
-    )
+    </div>
+  )
 }
 
-export default Signup;
+export default Signup
