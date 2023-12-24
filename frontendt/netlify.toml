@@ -1,0 +1,6 @@
+[build]
+  command = "npm run build"
+  publish = "frontendt/build"
+
+[build.environment]
+  NODE_ENV = "production"
