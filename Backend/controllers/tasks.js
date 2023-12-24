@@ -7,6 +7,7 @@ const ShowTask = async (req, res) => {
     .populate('members.member')
     .populate('superTask')
     .populate('assignedBy')
+    .populate('creator')
   // //console.log(task.creator._id,req.user._id);
   // //console.log(task.members);
   ////console.log(task.creator,req.user._id);
@@ -30,7 +31,7 @@ const ShowTask = async (req, res) => {
     progress: task.progress,
     completed: task.completed,
     members: members,
-    creator: User.findById(task.creator._id).username,
+    creator: task.creator.username,
     superTask: task.superTask,
     deadline: task.deadline,
     id: task._id,
@@ -75,17 +76,27 @@ const AddMemeber = async (req, res) => {
   ////console.log(req.body);
 
   const { username, title, description, deadline } = req.body
-  const task = await Task.findById(req.params.id);
+  const task = await Task.findById(req.params.id).populate('members');
   const mem = await User.findOne({ username })
 
     if(!mem){
         return res.status(400).send('Member does not exist')
     }
-
-  if (task.members.includes((object) => object.member.equals(mem._id))) {
+ const flag = task.members.map((object) => {
+  
+  if(object.member.equals(mem._id))
+  {
+    return true
+  }
+  else{
+    return false
+  }
+  })
+  
+  if(flag.includes(true)){
     return res.status(400).send('Member already exists')
   }
-
+  
   //////console.log(mem._id);
   console.log(task.members[0].member._id);
 
@@ -220,7 +231,7 @@ const ShowAllTasks = async (req, res) => {
 }
 
 const DeleteTask = async (req, res) => {
-  const task = await Task.findById(req.params.id).populate('members.member')
+  const task = await Task.findById(req.params.id).populate('members.member').populate('subTasks.task')
   //const subTasks =        await     task.subTasks[0].populate('task');
 
   ////console.log(task.members);
@@ -231,6 +242,19 @@ const DeleteTask = async (req, res) => {
       await object.member.save()
     })
   )
+
+  if(task.subTasks.length>0){
+
+  await Promise.all(
+    task.subTasks.map( async (object) => {
+       object.task.superTask= null
+      await object.task.save()
+    }
+  )
+  )
+  }
+
+
 
   await Task.findOneAndDelete({ _id: req.params.id })
 

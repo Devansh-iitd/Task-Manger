@@ -36,15 +36,15 @@ function Signup() {
         let response
 
         try {
-          // console.log(formData, baseURL);
+          // //console.log(formData, baseURL);
           response = await axios.post(url, formData, {
             headers: {
               'Content-Type': 'application/json',
             },
           })
-          console.log(response)
+          //console.log(response)
         } catch (err) {
-          console.log(err)
+          //console.log(err)
           if(err.response.status === 400){
             setError('Username or Email already exists');
         }
@@ -84,7 +84,7 @@ function Signup() {
 
             localStorage.setItem('profilePic', response.data.profilePic)
           } catch (err) {
-            console.log(err)
+            //console.log(err)
           }
 
           navigate('/')

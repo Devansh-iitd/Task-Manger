@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const AddTask = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +12,7 @@ const AddTask = () => {
 
   const [formErrors, setFormErrors] = useState({})
   const [submitted, setSubmitted] = useState(false)
+  const navigate = useNavigate()
 
   const handleChange = (evt) => {
     setFormData({
@@ -21,7 +23,7 @@ const AddTask = () => {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault()
-    //console.log(formData);
+    ////console.log(formData);
     setFormErrors(validate(formData))
     setSubmitted(true)
   }
@@ -40,7 +42,7 @@ const AddTask = () => {
             'Content-Type': 'application/json',
           },
         })
-        console.log(response)
+        //console.log(response)
 
         setFormData({
           title: '',
@@ -48,11 +50,11 @@ const AddTask = () => {
           deadline: '',
         })
       } catch (err) {
-        console.log(err)
+        //console.log(err)
       }
 
       if (response) {
-        window.location.href = '/tasks'
+        navigate('/tasks');
       }
     }
     fetchData()

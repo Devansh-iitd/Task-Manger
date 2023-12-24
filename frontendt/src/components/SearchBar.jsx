@@ -6,9 +6,9 @@ const SearchBar = (props) => {
   const [query, setQuery] = useState('');
 
   const handleChange = async (evt) => {
-    console.log('hello')
+    //console.log('hello')
 
-    console.log(evt.target.value)
+    //console.log(evt.target.value)
     setQuery(evt.target.value);
     if (query === '') {
       setResults([])

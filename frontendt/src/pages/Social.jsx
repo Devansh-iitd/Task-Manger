@@ -23,7 +23,7 @@ const Social = () => {
         },
       })
 
-      //console.log(response.data);
+      ////console.log(response.data);
       setFriends(response.data)
     }
     fetchData()
@@ -37,7 +37,7 @@ const Social = () => {
         },
       })
 
-      // console.log(response.data);
+      // //console.log(response.data);
       setRequests(response.data)
     }
     fetchRequests()
@@ -61,10 +61,10 @@ const Social = () => {
           },
         }
       )
-      console.log(response)
+      //console.log(response)
       setClicked(!clicked)
     } catch (err) {
-      console.log(err)
+      //console.log(err)
       //window.location.href = "/social";
     }
     setClose(true)
@@ -86,10 +86,10 @@ const Social = () => {
           },
         }
       )
-      console.log(response)
+      //console.log(response)
       setClicked(!clicked)
     } catch (err) {
-      console.log(err)
+      //console.log(err)
     }
   }
 
@@ -108,9 +108,9 @@ const Social = () => {
         },
       })
       setClicked(!clicked)
-      console.log(response)
+      //console.log(response)
     } catch (err) {
-      console.log(err)
+      //console.log(err)
     }
   }
 
@@ -193,7 +193,7 @@ const Social = () => {
           </h1>
 
           {requests.map((request) => {
-            console.log(request)
+            //console.log(request)
 
             return (
               <div className=" w-fit">

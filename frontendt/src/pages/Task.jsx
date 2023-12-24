@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import ReactModal from 'react-modal'
 import SearchBar from '../components/SearchBar'
-import { useSelector, useDispatch } from 'react-redux'
-import { showMessage, hideMessage } from '../redux/slices/flashMessage'
+import {  useDispatch } from 'react-redux'
+import { showMessage } from '../redux/slices/flashMessage'
 import { useNavigate } from 'react-router-dom'
 
 const Task = () => {
@@ -13,17 +13,18 @@ const Task = () => {
   const navigate = useNavigate()
 
   const [ModalisOpen, setModalisOpen] = useState(false)
-  const [username, setUsername] = useState('')
+ // const [username, setUsername] = useState('')
   const [superTask, setSuperTask] = useState(true)
   const dispatch = useDispatch()
   // const [messsage, setMesssage] = useState(useSelector((state) => state.flashMessage.message));
-  const message = useSelector((state) => state.flashMessage.message)
-  const visibility = useSelector((state) => state.flashMessage.isVisible)
+  //const message = useSelector((state) => state.flashMessage.message)
+  //const visibility = useSelector((state) => state.flashMessage.isVisible)
   const [error,setError]  = useState('');
-  console.log(visibility)
+  //console.log(visibility)
   
 
   useEffect(() => {
+    //console.log('use effect');
     const fetchData = async () => {
       const url = `http://localhost:8080/tasks/${id}`
       const token = localStorage.getItem('token')
@@ -37,23 +38,21 @@ const Task = () => {
             id: id,
           },
         })
-        console.log(response.data)
+        ////console.log(response.data)
         response.data.deadline = response.data.deadline.split('T')[0]
         setTask(response.data)
       } catch (err) {
-        console.log(err)
+        //console.log(err)
         if (err.response.data === 'SuperTask does not exist') {
-          setSuperTask((prev) => {
-            return false
-          })
-          console.log(superTask)
+          setSuperTask(false)
+          //console.log(superTask)
           handleDelete()
           //dispatch(showMessage('SuperTask does not exist'))
         }
       }
     }
     fetchData()
-  }, [ModalisOpen, superTask])
+  }, [ModalisOpen,superTask])
 
   const OpenModal = () => {
     setModalisOpen(true)
@@ -78,32 +77,32 @@ const Task = () => {
       [evt.target.name]: evt.target.value,
     })
 
-    console.log(formData)
+    ////console.log(formData)
   }
 
   const [close, setClose] = useState(false)
 
   const handlechange1 = (evt) => {
-    console.log(evt.currentTarget.getAttribute('data-username'))
-    setUsername(evt.currentTarget.getAttribute('data-username'))
+    ////console.log(evt.currentTarget.getAttribute('data-username'))
+    //setUsername(evt.currentTarget.getAttribute('data-username'))
     setFormData({
       ...formData,
       username: evt.currentTarget.getAttribute('data-username'),
     })
-    console.log(formData)
+    ////console.log(formData)
     setClose(true)
-    console.log(formData)
+    ////console.log(formData)
   }
 
   const handleSubmit = async (evt) => {
     evt.preventDefault()
-    console.log(formData)
+    ////console.log(formData)
     
     const id = window.location.href.split('/')[4]
     const url = `http://localhost:8080/tasks/addmember/${id}`
     const token = localStorage.getItem('token')
     try {
-      const response = await axios.put(url, formData, {
+       await axios.put(url, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -117,11 +116,14 @@ const Task = () => {
       CloseModal()
       // window.location.href = `/tasks/${id}`;
     } catch (err) {
-      console.log(err)
+      //console.log(err)
       
       if(err.response.data === 'Member does not exist'){
         
       setError('Incorrect Username or User does not exist')
+      }
+      else if(err.response.data === 'Member already exists'){
+        setError('Member already exists')
       }
     }
   }
@@ -147,21 +149,21 @@ const Task = () => {
           },
         }
       )
-      console.log(response)
+      //console.log(response)
       setTask((prev) => {
         return { ...prev, progress: response.data }
       })
     } catch (err) {
-      console.log(err)
+      //console.log(err)
     }
   }
 
   const handleDelete = async (evt) => {
-    //console.log('came here');
+    ////console.log('came here');
 
     const id = window.location.href.split('/')[4]
     try {
-      const response = await axios.delete(
+       await axios.delete(
         `http://localhost:8080/tasks/delete/${id}`,
         {
           headers: {
@@ -173,15 +175,15 @@ const Task = () => {
           },
         }
       )
-      console.log(response)
+      //console.log(response)
     } catch (err) {
-      console.log(err)
+      //console.log(err)
     }
     navigate('/tasks')
     if (superTask === false) {
       dispatch(showMessage('SuperTask has been deleted'))
     }
-    console.log(message, 'hello', superTask)
+    //console.log(message, 'hello', superTask)
   }
 
   
@@ -247,7 +249,7 @@ const Task = () => {
             <p className="text-xl m-3">Members</p>
             <ul className="text-xl m-3">
               {task.members?.map((member) => {
-                console.log(member)
+                ////console.log(member)
                 return (
                   <li>
                     <a>{member.username}</a>

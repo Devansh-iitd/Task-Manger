@@ -10,10 +10,24 @@ import Tasks from './pages/Tasks';
 import AddTask from './pages/addTask';
 import Social from './pages/Social';
 import Task from './pages/Task';
+import { useEffect } from 'react';
 
 
 
 function App() {
+
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      localStorage.clear();
+    };
+
+    window.addEventListener('unload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('unload', handleBeforeUnload);
+    };
+  }, []);
+
   return (
     <div className="App ">
       

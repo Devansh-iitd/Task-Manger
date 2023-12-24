@@ -4,15 +4,18 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useSelector,useDispatch } from 'react-redux'
 import { hideMessage } from '../redux/slices/flashMessage'
+import { useNavigate } from 'react-router-dom'
 
 const Tasks = () => {
   const [tasks, setTasks] = useState([])
   const message = useSelector((state) => state.flashMessage.message)
   const visibility = useSelector((state) => state.flashMessage.isVisible)
-  console.log(message,visibility);
+  //console.log(message,visibility);
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   useEffect(() => {
+    //console.log('use effect');
     const fetchData = async () => {
       const url = 'http://localhost:8080/tasks'
       const token = localStorage.getItem('token')
@@ -23,26 +26,26 @@ const Tasks = () => {
         },
       })
 
-      //console.log(response.data);
+      ////console.log(response.data);
       setTasks(response.data)
     }
 
     fetchData()
-    //console.log("hello");
+    ////console.log("hello");
   }, [])
 
   const ChangePage = () => {
-    window.location.href = '/tasks/addTask'
+    navigate('/tasks/addTask')
   }
 
   const TaskDetails = (evt) => {
     const id = evt.currentTarget.getAttribute('data-id')
 
-    window.location.href = `/tasks/${id}`
+    navigate(`/tasks/${id}`)
   }
 
   if(visibility){
-    console.log('came here');
+    //console.log('came here');
     setTimeout( () => {
       dispatch(hideMessage())
     },3000)

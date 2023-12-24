@@ -26,7 +26,7 @@ function Login() {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault()
-    //console.log(formData);
+    ////console.log(formData);
     setFormErrors(validate(formData))
     setIsSubmitting(true)
   }
@@ -42,7 +42,7 @@ function Login() {
               'Content-Type': 'application/json',
             },
           })
-          //console.log(response);
+          ////console.log(response);
 
           setFormData({
             username: '',
@@ -52,7 +52,7 @@ function Login() {
           )
           setError(null);
         } catch (err) {
-          console.log(err);
+          //console.log(err);
           if(err.response.status === 401){
             setError('Invalid Credentials')
           }
@@ -87,10 +87,10 @@ function Login() {
                 },
               }
             )
-            //console.log(response);
+            ////console.log(response);
             localStorage.setItem('profilePic', response.data.profilePic)
           } catch (err) {
-            console.log(err)
+            //console.log(err)
           }
 
           navigate('/')
