@@ -24,7 +24,7 @@ const ExtractJWT = require('passport-jwt').ExtractJwt
 
  const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/Task-Manager'
 //
-mongoose.connect('mongodb://127.0.0.1:27017/Task-Manager', {
+mongoose.connect(dbUrl, {
   /* useNewUrlParser: true,
      useCreateIndex: true,
      useUnifiedTopology: true these are already set to true in newer version of mongoose */
