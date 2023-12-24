@@ -22,7 +22,7 @@ function Signup() {
     })
   }
 
-  const url = 'http://localhost:8080/register'
+  const url = 'https://task-manager-3o0h.onrender.com/register'
 
   const handleSubmit = async (evt) => {
     evt.preventDefault()
@@ -73,7 +73,7 @@ function Signup() {
 
           try {
             response = await axios.get(
-              'http://localhost:8080/userInfo/profilePic',
+              'https://task-manager-3o0h.onrender.com/userInfo/profilePic',
               {
                 headers: {
                   Authorization: `Bearer ${localStorage.getItem('token')}`,

@@ -15,7 +15,7 @@ const SearchBar = (props) => {
       return
     }
 
-    const url = 'http://localhost:8080/friends/search'
+    const url = 'https://task-manager-3o0h.onrender.com/friends/search'
     const response = await axios.get(url, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,

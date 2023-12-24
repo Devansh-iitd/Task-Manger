@@ -35,7 +35,7 @@ function Login() {
     if (Object.keys(formErrors).length === 0 && isSubmitting) {
       const fetchData = async () => {
         let response
-        const url = 'http://localhost:8080/login'
+        const url = 'https://task-manager-3o0h.onrender.com/login'
         try {
           response = await axios.post(url, formData, {
             headers: {
@@ -79,7 +79,7 @@ function Login() {
 
           try {
             response = await axios.get(
-              'http://localhost:8080/userInfo/profilePic',
+              'https://task-manager-3o0h.onrender.com/userInfo/profilePic',
               {
                 headers: {
                   Authorization: `Bearer ${localStorage.getItem('token')}`,

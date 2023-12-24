@@ -17,7 +17,7 @@ const Tasks = () => {
   useEffect(() => {
     //console.log('use effect');
     const fetchData = async () => {
-      const url = 'http://localhost:8080/tasks'
+      const url = 'https://task-manager-3o0h.onrender.com/tasks'
       const token = localStorage.getItem('token')
       const response = await axios.get(url, {
         headers: {

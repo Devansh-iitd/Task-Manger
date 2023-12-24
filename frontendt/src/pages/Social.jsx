@@ -15,7 +15,7 @@ const Social = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const url = 'http://localhost:8080/friends'
+      const url = 'https://task-manager-3o0h.onrender.com/friends'
       const response = await axios.get(url, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -29,7 +29,7 @@ const Social = () => {
     fetchData()
 
     const fetchRequests = async () => {
-      const url = 'http://localhost:8080/friends/requests'
+      const url = 'https://task-manager-3o0h.onrender.com/friends/requests'
       const response = await axios.get(url, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -47,7 +47,7 @@ const Social = () => {
 
   const addFriend = async (evt) => {
     const username = evt.target.value
-    const url = 'http://localhost:8080/friends/add'
+    const url = 'https://task-manager-3o0h.onrender.com/friends/add'
     try {
       const response = await axios.post(
         url,
@@ -72,7 +72,7 @@ const Social = () => {
 
   const acceptRequest = async (evt) => {
     const username = evt.currentTarget.getAttribute('data-username')
-    const url = 'http://localhost:8080/friends/accept'
+    const url = 'https://task-manager-3o0h.onrender.com/friends/accept'
     try {
       const response = await axios.put(
         url,
@@ -94,7 +94,7 @@ const Social = () => {
   }
 
   const rejectRequest = async (evt) => {
-    const url = 'http://localhost:8080/friends/'
+    const url = 'https://task-manager-3o0h.onrender.com/friends/'
     const requester = evt.currentTarget.getAttribute('data-username')
 
     try {

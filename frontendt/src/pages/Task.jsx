@@ -26,7 +26,7 @@ const Task = () => {
   useEffect(() => {
     //console.log('use effect');
     const fetchData = async () => {
-      const url = `http://localhost:8080/tasks/${id}`
+      const url = `https://task-manager-3o0h.onrender.com/tasks/${id}`
       const token = localStorage.getItem('token')
       try {
         const response = await axios.get(url, {
@@ -99,7 +99,7 @@ const Task = () => {
     ////console.log(formData)
     
     const id = window.location.href.split('/')[4]
-    const url = `http://localhost:8080/tasks/addmember/${id}`
+    const url = `https://task-manager-3o0h.onrender.com/tasks/addmember/${id}`
     const token = localStorage.getItem('token')
     try {
        await axios.put(url, formData, {
@@ -132,7 +132,7 @@ const Task = () => {
     evt.preventDefault()
 
     const id = window.location.href.split('/')[4]
-    const url = `http://localhost:8080/tasks/update/${id}`
+    const url = `https://task-manager-3o0h.onrender.com/tasks/update/${id}`
     const token = localStorage.getItem('token')
 
     try {
@@ -164,7 +164,7 @@ const Task = () => {
     const id = window.location.href.split('/')[4]
     try {
        await axios.delete(
-        `http://localhost:8080/tasks/delete/${id}`,
+        `https://task-manager-3o0h.onrender.com/tasks/delete/${id}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,

@@ -33,7 +33,7 @@ const AddTask = () => {
 
     const fetchData = async () => {
       let response
-      const url = 'http://localhost:8080/tasks/add'
+      const url = 'https://task-manager-3o0h.onrender.com/tasks/add'
       const token = localStorage.getItem('token')
       try {
         response = await axios.post(url, formData, {
